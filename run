@@ -39,15 +39,9 @@ function rails {
 }
 
 function test {
-  # Run your Rails tests, use `test -b` to first rebuild your JS and CSS
-  local run_build="${1:-}"
-  local test_command="rails test"
+  local test_command="bundle exec rspec"
 
-  if [ "${run_build}" = "-b" ]; then
-    test_command="yarn build && yarn build:css && ${test_command}"
-  fi
-
-  _dc -e "RAILS_ENV=test" js bash -c "${test_command}"
+  _dc -e "RAILS_ENV=test" web bash -c "${test_command}"
 }
 
 function shell {

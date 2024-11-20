@@ -6,7 +6,6 @@ x-app: &default-app
       - "UID=${UID:-1000}"
       - "GID=${GID:-1000}"
       - "RAILS_ENV=${RAILS_ENV:-production}"
-      - "NODE_ENV=${NODE_ENV:-production}"
   depends_on:
     postgres:
       condition: "service_started"
@@ -30,7 +29,6 @@ x-assets: &default-assets
       - "UID=${UID:-1000}"
       - "GID=${GID:-1000}"
       - "RAILS_ENV=${RAILS_ENV:-production}"
-      - "NODE_ENV=${NODE_ENV:-production}"
   env_file:
     - ".env"
   profiles: ["assets"]
@@ -98,27 +96,6 @@ services:
           cpus: "${DOCKER_WORKER_CPUS:-0}"
           memory: "${DOCKER_WORKER_MEMORY:-0}"
     profiles: ["worker"]
-
-  cable:
-    <<: *default-app
-    command: "puma -p 28080 cable/config.ru"
-    entrypoint: []
-    deploy:
-      resources:
-        limits:
-          cpus: "${DOCKER_CABLE_CPUS:-0}"
-          memory: "${DOCKER_CABLE_MEMORY:-0}"
-    ports:
-      - "${DOCKER_CABLE_PORT_FORWARD:-127.0.0.1:28080}:${CABLE_PORT:-28080}"
-    profiles: ["cable"]
-
-  js:
-    <<: *default-assets
-    command: "yarn build"
-
-  css:
-    <<: *default-assets
-    command: "yarn build:css"
 
 volumes:
   postgres: {}

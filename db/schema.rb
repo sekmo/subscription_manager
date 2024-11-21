@@ -10,9 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 0) do
-
+ActiveRecord::Schema[7.2].define(version: 2024_11_21_121633) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
+  create_table "subscriptions", force: :cascade do |t|
+    t.string "stripe_id", null: false
+    t.integer "status", limit: 2, default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["status"], name: "index_subscriptions_on_status"
+    t.index ["stripe_id"], name: "index_subscriptions_on_stripe_id", unique: true
+  end
 end

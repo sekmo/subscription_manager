@@ -13,6 +13,10 @@ class Api::V1::StripeEventsController < ApplicationController
       stripe_subscription_id = event.data.object.subscription
       subscription = Subscription.find_by!(stripe_id: stripe_subscription_id)
       subscription.update(status: :paid)
+    when "customer.subscription.deleted"
+      stripe_subscription_id = event.data.object
+      subscription = Subscription.find_by!(stripe_id: stripe_subscription_id)
+      subscription.update(status: :cancelled)
     else
       Rails.logger.info "XXX Unhandled event type: #{event.type}"
     end

@@ -4,11 +4,11 @@
 #
 # To use the locales, use `I18n.t`:
 #
-#     I18n.t "subomatic"
+#     I18n.t "subscription_manager"
 #
 # In views, this is aliased to just `t`:
 #
-#     <%= t("subomatic") %>
+#     <%= t("subscription_manager") %>
 #
 # To use a different locale, set it with `I18n.locale`:
 #
@@ -28,4 +28,4 @@
 #       enabled: "ON"
 
 en:
-  subomatic: "Subomatic!"
+  subscription_manager: "SubscriptionManager!"

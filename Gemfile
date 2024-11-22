@@ -14,6 +14,8 @@ gem "puma", "~> 6.4"
 
 gem "stripe", "~> 13.2"
 
+gem "aasm", "~> 5.5"
+
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
 gem "jbuilder"
 

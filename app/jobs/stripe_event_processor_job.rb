@@ -8,11 +8,11 @@ class StripeEventProcessorJob < ApplicationJob
     when "invoice.paid"
       stripe_subscription_id = event.data.object.subscription
       subscription = Subscription.find_by!(stripe_id: stripe_subscription_id)
-      subscription.update(status: :paid)
+      subscription.pay!
     when "customer.subscription.deleted"
       stripe_subscription_id = event.data.object
       subscription = Subscription.find_by!(stripe_id: stripe_subscription_id)
-      subscription.update(status: :cancelled)
+      subscription.cancel!
     else
       Rails.logger.info "XXX Unhandled event type: #{event.type}"
     end

@@ -1,5 +1,19 @@
 class Subscription < ApplicationRecord
-  enum :status, { unpaid: 0, paid: 1, cancelled: 2 }
-
+  include AASM
+  enum status: { unpaid: 0, paid: 1, cancelled: 2 }
   validates :stripe_id, presence: true, uniqueness: true
+
+  aasm column: :status, enum: true do
+    state :unpaid, initial: true
+    state :paid
+    state :cancelled
+
+    event :pay do
+      transitions from: :unpaid, to: :paid
+    end
+
+    event :cancel do
+      transitions from: :paid, to: :cancelled
+    end
+  end
 end

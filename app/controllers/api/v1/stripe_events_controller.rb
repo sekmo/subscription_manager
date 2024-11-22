@@ -3,7 +3,9 @@ class Api::V1::StripeEventsController < ApplicationController
     payload = request.body.read
     event_data = JSON.parse(payload, symbolize_names: true)
 
-    StripeEventProcessorJob.perform_later(event_data)
+    if StripeEventProcessorJob::EVENTS_TO_PROCESS.include?(event_data[:type])
+      StripeEventProcessorJob.perform_later(event_data) 
+    end
 
     head :ok
   end

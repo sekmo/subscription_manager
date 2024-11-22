@@ -1,4 +1,10 @@
 class StripeEventProcessorJob < ApplicationJob
+  EVENTS_TO_PROCESS = [
+    "customer.subscription.created",
+    "invoice.paid",
+    "customer.subscription.deleted"
+  ]
+
   def perform(event_data)
     event = Stripe::Event.construct_from(event_data)
     case event.type
@@ -13,8 +19,6 @@ class StripeEventProcessorJob < ApplicationJob
       stripe_subscription_id = event.data.object
       subscription = Subscription.find_by!(stripe_id: stripe_subscription_id)
       subscription.cancel!
-    else
-      Rails.logger.info "XXX Unhandled event type: #{event.type}"
     end
   end
 end

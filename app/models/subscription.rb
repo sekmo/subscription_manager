@@ -13,6 +13,10 @@ class Subscription < ApplicationRecord
       transitions from: :unpaid, to: :paid
     end
 
+    event :unpay do
+      transitions from: :paid, to: :unpaid
+    end
+
     event :cancel do
       transitions from: :paid, to: :cancelled
     end

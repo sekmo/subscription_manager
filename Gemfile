@@ -16,6 +16,8 @@ gem "stripe", "~> 13.2"
 
 gem "aasm", "~> 5.5"
 
+gem "audited", "~> 5.8"
+
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
 gem "jbuilder"
 

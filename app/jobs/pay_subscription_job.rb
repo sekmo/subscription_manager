@@ -1,4 +1,4 @@
-class PaySubscriptionJob < ApplicationJob
+class PaySubscriptionJob < StripeEventJob
   def perform(event_data)
     event = Stripe::Event.construct_from(event_data)
     stripe_subscription_id = event.data.object.subscription

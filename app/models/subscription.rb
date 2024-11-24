@@ -4,6 +4,8 @@ class Subscription < ApplicationRecord
   validates :stripe_id, presence: true
   belongs_to :customer
 
+  audited
+
   aasm column: :status, enum: true do
     state :unpaid, initial: true
     state :paid

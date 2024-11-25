@@ -45,3 +45,7 @@ group :development, :test do
   gem "rubocop-rails-omakase", require: false
   gem "rspec-rails", "~> 7.0.0"
 end
+
+group :test do
+  gem 'faker', '~> 3.5', '>= 3.5.1'
+end

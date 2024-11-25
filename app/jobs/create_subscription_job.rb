@@ -5,7 +5,7 @@ class CreateSubscriptionJob < StripeEventJob
     stripe_customer = Stripe::Customer.retrieve(stripe_subscription.customer)
 
     # Handle potential duplicated create subscription events
-    customer = FindOrCreateCustomer.call(stripe_customer)
-    FindOrCreateSubscription.call(stripe_subscription.id, customer.id)
+    customer = CreateOrFindCustomer.call(stripe_customer)
+    CreateOrFindSubscription.call(stripe_subscription.id, customer.id)
   end
 end

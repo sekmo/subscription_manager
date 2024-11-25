@@ -41,7 +41,7 @@ function rails {
 function test {
   local test_command="bundle exec rspec"
 
-  _dc -e "RAILS_ENV=test" web bash -c "${test_command}"
+  _dc -e "RAILS_ENV=test" web bash -c "${test_command} ${@}"
 }
 
 function shell {

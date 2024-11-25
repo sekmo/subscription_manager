@@ -3,15 +3,19 @@
 # to "unpaid". In the Stripe dashboard the Billing config should be set so that when an Invoice
 # is past due, the subscription status is updated to "unpaid", in order to receive this event.
 class UpdateSubscriptionJob < StripeEventJob
+  PAST_DUE_STATUS = "past_due".freeze
+
   def perform(event_data)
     event = Stripe::Event.construct_from(event_data)
     stripe_subscription = event.data.object
 
-    if stripe_subscription.status == "past_due"
-      subscription = Subscription.find_by!(stripe_id: stripe_subscription.id)
-      return if subscription.unpaid?
+    return unless stripe_subscription.status == PAST_DUE_STATUS
 
-      subscription.unpay!
-    end
+    subscription = FindOrCreateSubscription.call(stripe_subscription.id)
+
+    # Handle potential duplicated events
+    return if subscription.unpaid?
+
+    subscription.unpay!
   end
 end

@@ -41,5 +41,14 @@ RSpec.describe StripeEventDispatcher, type: :service do
         stripe_event_dispatcher.call(event_data)
       end
     end
+
+    context "when the event is unknown" do
+      let(:event_type) { "unknown" }
+
+      it "logs the unknown event" do
+        expect(Rails.logger).to receive(:warn).with("Unhandled Stripe event type: unknown")
+        stripe_event_dispatcher.call(event_data)
+      end
+    end
   end
 end

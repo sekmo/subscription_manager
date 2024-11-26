@@ -20,6 +20,8 @@ class StripeEventDispatcher
       CancelSubscriptionJob.perform_later(event_data)
     when EVENTS_TO_PROCESS[:subscription_updated]
       UpdateSubscriptionJob.perform_later(event_data)
+    else
+      Rails.logger.warn("Unhandled Stripe event type: #{event_data[:type]}")
     end
   end
 end

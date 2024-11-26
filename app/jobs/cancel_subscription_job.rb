@@ -6,7 +6,7 @@ class CancelSubscriptionJob < StripeEventJob
     subscription = FindOrCreateSubscription.call(stripe_subscription.id)
 
     # Handle potential duplicated cancel subscription events
-    return if subscription.cancelled?
+    return if subscription.canceled?
 
     subscription.cancel!
   end

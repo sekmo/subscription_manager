@@ -7,8 +7,8 @@ FactoryBot.define do
       status { "paid" }
     end
 
-    trait :cancelled do
-      status { "cancelled" }
+    trait :canceled do
+      status { "canceled" }
     end
   end
 end

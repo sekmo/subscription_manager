@@ -1,6 +1,6 @@
 class Subscription < ApplicationRecord
   include AASM
-  enum :status, { unpaid: 0, paid: 1, cancelled: 2 }
+  enum :status, { unpaid: 0, paid: 1, canceled: 2 }
   validates :stripe_id, presence: true
   belongs_to :customer
 
@@ -9,7 +9,7 @@ class Subscription < ApplicationRecord
   aasm column: :status, enum: true do
     state :unpaid, initial: true
     state :paid
-    state :cancelled
+    state :canceled
 
     event :pay do
       transitions from: :unpaid, to: :paid
@@ -20,7 +20,7 @@ class Subscription < ApplicationRecord
     end
 
     event :cancel do
-      transitions from: :paid, to: :cancelled
+      transitions from: :paid, to: :canceled
     end
   end
 end

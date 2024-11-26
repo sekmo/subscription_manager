@@ -28,15 +28,15 @@ RSpec.describe PaySubscriptionJob, type: :job do
       end
     end
 
-    context "when the subscription is cancelled" do
+    context "when the subscription is canceled" do
       before do
-        subscription.update(status: "cancelled")
+        subscription.update(status: "canceled")
       end
 
       it "raises an invalid transition error" do
         expect {
           pay_subscription_job.perform(event_data)
-        }.to raise_error(AASM::InvalidTransition, "Event 'pay' cannot transition from 'cancelled'.")
+        }.to raise_error(AASM::InvalidTransition, "Event 'pay' cannot transition from 'canceled'.")
       end
     end
   end

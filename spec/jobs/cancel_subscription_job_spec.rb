@@ -16,15 +16,15 @@ RSpec.describe CancelSubscriptionJob, type: :job do
         subscription.update(status: "paid")
       end
 
-      it "updates the subscription status to cancelled" do
+      it "updates the subscription status to canceled" do
         expect { cancel_subscription_job.perform(event_data) }
-          .to change { subscription.reload.status }.from("paid").to("cancelled")
+          .to change { subscription.reload.status }.from("paid").to("canceled")
       end
     end
 
-    context "when the subscription is already cancelled" do
+    context "when the subscription is already canceled" do
       before do
-        subscription.update(status: "cancelled")
+        subscription.update(status: "canceled")
       end
 
       it "does not update the subscription status" do

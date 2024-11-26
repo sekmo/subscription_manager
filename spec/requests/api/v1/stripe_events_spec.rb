@@ -78,7 +78,7 @@ RSpec.describe "Api::V1::StripeEvents", type: :request do
         perform_enqueued_jobs do
           expect {
             post "/api/v1/stripe_events", params: payload, headers: { "Content-Type" => "application/json" }
-          }.to change { subscription.reload.status }.from("paid").to("cancelled")
+          }.to change { subscription.reload.status }.from("paid").to("canceled")
         end
       end
     end

@@ -31,7 +31,7 @@ RSpec.describe Subscription, type: :model do
         expect { subscription.pay }.to change(subscription, :status).from("unpaid").to("paid")
       end
 
-      it "cannot transition to cancelled" do
+      it "cannot transition to canceled" do
         expect { subscription.cancel }.to raise_error(AASM::InvalidTransition)
       end
     end
@@ -43,13 +43,13 @@ RSpec.describe Subscription, type: :model do
         expect { subscription.unpay }.to change(subscription, :status).from("paid").to("unpaid")
       end
 
-      it "can transition to cancelled" do
-        expect { subscription.cancel }.to change(subscription, :status).from("paid").to("cancelled")
+      it "can transition to canceled" do
+        expect { subscription.cancel }.to change(subscription, :status).from("paid").to("canceled")
       end
     end
 
-    context "from state of cancelled" do
-      let(:subscription) { create(:subscription, :cancelled) }
+    context "from state of canceled" do
+      let(:subscription) { create(:subscription, :canceled) }
 
       it "cannot transition to unpaid" do
         expect { subscription.unpay }.to raise_error(AASM::InvalidTransition)

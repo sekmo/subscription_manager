@@ -58,6 +58,20 @@ RSpec.describe "Api::V1::StripeEvents", type: :request do
 
           expect(response).to have_http_status(:ok)
         end
+
+        it "stores the audit information with stripe event id" do
+          perform_enqueued_jobs do
+            post "/api/v1/stripe_events", params: payload, headers: { "Content-Type" => "application/json" }
+          end
+
+          subscription = Subscription.last
+
+          audit = subscription.audits.last
+          expect(audit.stripe_event_id).to eq("evt_1QP6iGKvFeX4s4udYkC32I3j")
+          expect(audit.audited_changes).to eq({ "status" => [0, 1] })
+
+          expect(response).to have_http_status(:ok)
+        end
       end
 
       context "with a subscription updated event" do
